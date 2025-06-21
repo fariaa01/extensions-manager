@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { Star } from "lucide-react"
+import Link from "next/link"
 
 type Props = {
   id: number
@@ -18,6 +19,7 @@ type Props = {
 }
 
 export default function ExtensionCard({
+  id, 
   name,
   description,
   logo,
@@ -52,10 +54,13 @@ export default function ExtensionCard({
         <p className="text-sm text-gray-300 mb-4">{description}</p>
       </div>
 
-      <div className="flex items-center justify-between mt-auto">
+      <div className="flex items-center justify-between mt-auto gap-2">
         <Button variant="secondary" className="text-sm" onClick={onRemove}>
           Remove
         </Button>
+         <Link href={`/extensions/${id}`} className="text-sm text-red-400 underline">
+          Details
+        </Link>
         <Switch
           checked={active}
           onCheckedChange={onToggle}

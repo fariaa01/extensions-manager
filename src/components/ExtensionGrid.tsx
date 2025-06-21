@@ -25,7 +25,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
+
 
 type Extension = {
   id: number
@@ -44,7 +45,7 @@ type SortableItemProps = {
 }
 
 
-function SortableItem({ extension, onToggle, onRemove, onFavorite }: any) {
+function SortableItem({ extension, onToggle, onRemove, onFavorite }: SortableItemProps){
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: extension.id,
   })
