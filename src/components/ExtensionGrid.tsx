@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { extensions as dataOriginal } from "@/data/extensions"
-import { AnimatePresence } from "framer-motion"
 import ExtensionCard from "@/components/ExtensionCard"
 import {
   DndContext,
@@ -26,6 +25,24 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { AnimatePresence, motion } from "framer-motion"
+
+type Extension = {
+  id: number
+  name: string
+  description: string
+  logo: string
+  active: boolean
+  favorite?: boolean
+}
+
+type SortableItemProps = {
+  extension: Extension
+  onToggle: (id: number) => void
+  onRemove: (id: number) => void
+  onFavorite: (id: number) => void
+}
+
 
 function SortableItem({ extension, onToggle, onRemove, onFavorite }: any) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -49,11 +66,12 @@ function SortableItem({ extension, onToggle, onRemove, onFavorite }: any) {
   )
 }
 
+
 export default function ExtensionGrid() {
   const [filter, setFilter] = useState("active")
   const [search, setSearch] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState("")
-  const [items, setItems] = useState(dataOriginal)
+  const [items, setItems] = useState<Extension[]>(dataOriginal)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [feedback, setFeedback] = useState<{ type: "info" | "danger"; message: string } | null>(null)
 
@@ -97,7 +115,7 @@ export default function ExtensionGrid() {
     if (removed) {
       setFeedback({
         type: "danger",
-        message: `Extensão \"${removed.name}\" removida com sucesso.`,
+        message: `Extensão "${removed.name}" removida com sucesso.`,
       })
       setTimeout(() => setFeedback(null), 3000)
     }
