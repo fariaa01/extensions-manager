@@ -1,7 +1,7 @@
 <h1 align="center">Extensions Manager – Next.js + TypeScript + Tailwind CSS</h1>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/extensions-manager-preview.png" width="100%" alt="Preview do Projeto"/>
+  <img src=""<img width="1920" height="1092" alt="Extensions-Manager-10-17-2025_08_43_PM" src="https://github.com/user-attachments/assets/b8a47c38-b22a-4d7d-aebf-0fe5d4ff46bb" />
 </p>
 
 <p align="center">
