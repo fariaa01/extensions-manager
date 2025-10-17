@@ -22,25 +22,6 @@ Desenvolvido com foco em **performance, usabilidade e design profissional**, ofe
 
 ---
 
-## Preview das Funcionalidades
-
-### Tela Principal com Filtros
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/main-screen-preview.png" width="90%" alt="Preview Tela Principal"/>
-</p>
-
-### Sistema de Drag & Drop
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/drag-drop-preview.gif" width="90%" alt="Preview Drag & Drop"/>
-</p>
-
-### Animações e Transições
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/animations-preview.gif" width="90%" alt="Preview Animações"/>
-</p>
-
----
-
 ## Principais Recursos
 
 🎯 **Filtros Inteligentes** (All, Active, Inactive, Favorites) com transições suaves  
