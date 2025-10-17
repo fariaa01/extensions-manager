@@ -1,8 +1,6 @@
 <h1 align="center">Extensions Manager – Next.js + TypeScript + Tailwind CSS</h1>
 
-<p align="center">
-  <img src=""<img width="1920" height="1092" alt="Extensions-Manager-10-17-2025_08_43_PM" src="https://github.com/user-attachments/assets/b8a47c38-b22a-4d7d-aebf-0fe5d4ff46bb" />
-</p>
+![Preview do Projeto](<img width="1920" height="1092" alt="Extensions-Manager-10-17-2025_08_43_PM" src="https://github.com/user-attachments/assets/330243cc-84cd-4c01-aa74-f205fc600084" />
 
 <p align="center">
   <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white&labelColor=0F172A" alt="Next.js"/></a>
