@@ -12,7 +12,7 @@ type Props = {
   description: string
   logo: string
   active: boolean
-  favorite: boolean
+  favorite?: boolean
   onToggle: () => void
   onRemove: () => void
   onFavorite: () => void
@@ -33,7 +33,7 @@ export default function ExtensionCard({
     <div className="relative h-full bg-[#1e293b] rounded-xl p-4 flex flex-col justify-between text-white shadow-sm">
       <button
         onClick={onFavorite}
-        className="absolute top-2 right-2 p-1"
+        className="absolute top-2 right-2 p-1 cursor-pointer"
         title="Favoritar"
       >
         <Star
@@ -54,18 +54,22 @@ export default function ExtensionCard({
         <p className="text-sm text-gray-300 mb-4">{description}</p>
       </div>
 
-      <div className="flex items-center justify-between mt-auto gap-2">
-        <Button variant="secondary" className="text-sm" onClick={onRemove}>
+      <div className="flex items-center mt-auto gap-1">
+        <Button variant="secondary" className="text-sm cursor-pointer" onClick={onRemove}>
           Remove
         </Button>
-         <Link href={`/extensions/${id}`} className="text-sm text-red-400 underline">
-          Details
-        </Link>
-        <Switch
-          checked={active}
-          onCheckedChange={onToggle}
-          className="data-[state=checked]:bg-red-500"
-        />
+        <Button variant="secondary" className="text-sm cursor-pointer" asChild>
+          <Link href={`/extensions/${id}`}>
+            Details
+          </Link>
+        </Button>
+        <div className="ml-auto">
+          <Switch
+            checked={active}
+            onCheckedChange={onToggle}
+            className="data-[state=checked]:bg-red-500 cursor-pointer"
+          />
+        </div>
       </div>
     </div>
   )

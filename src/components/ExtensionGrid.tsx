@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { extensions as dataOriginal } from "@/data/extensions"
 import ExtensionCard from "@/components/ExtensionCard"
+import ClientOnly from "@/components/ClientOnly"
 import {
   DndContext,
   closestCenter,
@@ -25,7 +26,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 
 
 type Extension = {
@@ -56,19 +57,36 @@ function SortableItem({ extension, onToggle, onRemove, onFavorite }: SortableIte
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="h-full">
+    <motion.div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="h-full"
+      layout
+      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.8, y: -20 }}
+      transition={{
+        duration: 0.3,
+        ease: "easeOut",
+        layout: { duration: 0.4 }
+      }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
       <ExtensionCard
         {...extension}
         onToggle={() => onToggle(extension.id)}
         onRemove={() => onRemove(extension.id)}
         onFavorite={() => onFavorite(extension.id)}
       />
-    </div>
+    </motion.div>
   )
 }
 
 
-export default function ExtensionGrid() {
+function ExtensionGridContent() {
   const [filter, setFilter] = useState("active")
   const [search, setSearch] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState("")
@@ -172,25 +190,43 @@ export default function ExtensionGrid() {
       )}
 
       <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 items-center">
           {["all", "active", "inactive", "favorites"].map(f => (
-            <button
+            <motion.button
               key={f}
-              className={`px-4 py-1 rounded-full text-sm font-medium ${
-                filter === f ? "bg-red-500 text-white" : "bg-[#1e293b] text-gray-300"
+              className={`px-4 py-1 rounded-full text-sm font-medium cursor-pointer transition-all duration-200 ${
+                filter === f ? "bg-red-500 text-white" : "bg-[#1e293b] text-gray-300 hover:bg-gray-600"
               }`}
               onClick={() => setFilter(f)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+                backgroundColor: filter === f ? "#ef4444" : "#1e293b"
+              }}
+              transition={{ duration: 0.2 }}
             >
               {f.charAt(0).toUpperCase() + f.slice(1)}
-            </button>
+            </motion.button>
           ))}
+          <motion.span 
+            className="text-sm text-gray-400 ml-2"
+            key={filtered.length}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            ({filtered.length} items)
+          </motion.span>
         </div>
 
         <button
           onClick={handleReset}
-          className="text-sm text-red-400 underline hover:text-red-300"
+          className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-red-400 bg-red-500/10 border border-red-500/20 rounded-md hover:bg-red-500/20 hover:text-red-300 transition-all duration-200 hover:scale-105 cursor-pointer"
         >
-          Reverter alterações
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          revert changes
         </button>
       </div>
 
@@ -208,8 +244,8 @@ export default function ExtensionGrid() {
       >
         <SortableContext items={filtered.map(i => i.id)} strategy={verticalListSortingStrategy}>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AnimatePresence>
-              {filtered.map(ext => (
+            <AnimatePresence mode="popLayout">
+              {filtered.map((ext) => (
                 <SortableItem
                   key={ext.id}
                   extension={ext}
@@ -239,5 +275,32 @@ export default function ExtensionGrid() {
         </DialogContent>
       </Dialog>
     </>
+  )
+}
+
+export default function ExtensionGrid() {
+  const fallback = (
+    <div className="space-y-4">
+      <div className="w-full h-10 bg-[#1e293b] rounded-md animate-pulse" />
+      <div className="flex gap-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="px-4 py-1 rounded-full bg-[#1e293b] animate-pulse w-20 h-8" />
+        ))}
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {dataOriginal
+          .filter(ext => ext.active)
+          .slice(0, 6)
+          .map(ext => (
+            <div key={ext.id} className="h-48 bg-[#1e293b] rounded-xl animate-pulse" />
+          ))}
+      </div>
+    </div>
+  )
+
+  return (
+    <ClientOnly fallback={fallback}>
+      <ExtensionGridContent />
+    </ClientOnly>
   )
 }
